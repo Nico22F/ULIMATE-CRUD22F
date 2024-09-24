@@ -25,18 +25,13 @@ namespace ULIMATE_CRUD22F
         // AGGIUNGERE LISTA
         private void READ_Click(object sender, EventArgs e)
         {
-            StreamReader sr = new StreamReader("elenco.txt");
-            string stringa = sr.ReadLine();
-
-            // scrivo nella listbox gli elementi del file
-            while (stringa != null)
-            {
-                LISTBOX.Items.Add(stringa);
-
-                stringa = sr.ReadLine();
+           for (int i = 0; i < lista.Count; i++) 
+            { 
+                if (lista[i].Nome == textbox_name.Text && lista[i].Cogome == textbox_cognome.Text) 
+                { 
+                    LISTBOX.SelectedIndex = i;
+                }
             }
-
-            sr.Close();
         }
 
         // AGGIORNARE ELEMENTI
@@ -93,6 +88,24 @@ namespace ULIMATE_CRUD22F
             {
                 StreamWriter sw = new StreamWriter("elenco.txt");
                 sw.Close();
+            }
+            else // aggiorno lista
+            {
+                StreamReader sr = new StreamReader("elenco.txt");
+                string[] array = new string[2];
+                string linea = sr.ReadLine();
+                while (linea != null)
+                {
+                    if (linea != null)
+                    {
+                        array = linea.Split(';');
+                        CRUD crud = new CRUD(array[0], array[1]);
+                        lista.Add(crud);
+                    }
+                    linea = sr.ReadLine();
+                }
+
+                sr.Close();
             }
 
             update_label.Visible = false;
